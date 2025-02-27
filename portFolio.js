@@ -1,215 +1,254 @@
-document.title = "MASSIVE++"
+document.title = "MASSIVE++";
 
-// ============ Toggle icon navbar =================
+const menuIcon = document.getElementById("menu-icon");
+const closeIcon = document.getElementById("close-icon");
+const navbar = document.querySelector(".navbar");
 
-let menuIcon = document.querySelector('#menu-icon');
-let navbar = document.querySelector('.navbar');
-
-menuIcon.onclick = () =>{
-    menuIcon.classList.toggle('fa-xmark')
-    navbar.classList.toggle('active')
-}
-
-// ============ scroll section active  link =================
-
-let sections = document.querySelectorAll('section');
-let navLinks = document.querySelectorAll('header nav a');
-
-window.onscroll = () =>{
-    sections.forEach( sec => {
-        let top = window.scrollY;
-        let offset = sec.offsetTop - 150;
-        let height = sec.offsetHeight;
-        let id = sec.getAttribute('id');
-
-        if( top >= offset && top < offset + height){
-            navLinks.forEach(links => {
-                links.classList.remove('active');
-                document.querySelector('header nav a[href*=' + id +']').classList.add('active');
-            });
-        };
-    });
-
-    // ============ sticky navbar =================
-
-    let header = document.querySelector('header');
-    header.classList.toggle('sticky' , window.scrollY > 100);
-
-      // ============ remove toggle icon and navbar =================
-      menuIcon.classList.remove('fa-xmark');
-      navbar.classList.remove('active');
-}
-
-            // JavaScript for modal
-document.addEventListener('DOMContentLoaded', function () {
-    const modal = document.getElementById('modal');
-    const closeButton = document.querySelector('.close-button');
-    const modalText = document.getElementById('modal-text');
-    const readMoreButtons = document.querySelectorAll('.read-more');
-
-    readMoreButtons.forEach(button => {
-        button.addEventListener('click', function (event) {
-            event.preventDefault();
-            const target = button.getAttribute('data-target');
-            let content = '';
-
-            switch (target) {
-                case 'about':
-                    content = `As a frontend developer, I have extensive experience in crafting user-friendly interfaces and ensuring smooth user experiences. My journey in web development began with a strong foundation in computer science, and I have since explored various technologies and frameworks to stay updated with industry trends. My passion lies in creating visually appealing and functional websites that leave a lasting impression on users.`;
-                    break;
-                case 'web-development':
-                    content = `Web development is my passion and expertise. I excel in creating responsive and intuitive web applications using the latest frontend technologies like HTML, CSS, and JavaScript. My projects focus on delivering seamless user experiences and leveraging the power of code to turn ideas into reality. My Skills in Web Development
-                    HTML5 & CSS3: Crafting clean, semantic, and accessible markup with modern CSS techniques.
-                    JavaScript & TypeScript: Developing interactive and dynamic web applications.
-                    Frameworks & Libraries: Proficient in React.js
-                    
-                    API Integration: Building and consuming RESTful APIs to enhance functionality.
-                    Responsive Design: Ensuring websites look great on all devices, from desktops to smartphones.
-                    My Approach
-                    I believe in the power of code to transform ideas into reality. My approach to web development is centered on writing clean, maintainable code and constantly learning new technologies to stay ahead in this fast-paced field. I am committed to delivering high-quality solutions that meet client requirements and exceed user expectations.`;
-                    break;
-                case 'ui-designing':
-                    content = `UI/UX designing is where art meets functionality for me. I am dedicated to crafting visually stunning and user-friendly interfaces that elevate the overall user experience. With a keen eye for detail and a deep understanding of user behavior, I ensure every design element serves a purpose and enhances usability. 
-                    My Skills in UI/UX Design
-                    User Research: Conducting user interviews, surveys, and usability testing to understand user needs.
-                    Wireframing & Prototyping: Creating wireframes and interactive prototypes using tools like Figma, Sketch, and Adobe XD.
-                    Visual Design: Designing stunning interfaces with a focus on usability and aesthetics.
-                    Interaction Design: Crafting smooth and engaging user interactions.
-                    Accessibility: Ensuring designs are accessible to all users, including those with disabilities.
-                    Design Systems: Building and maintaining consistent design systems and style guides.
-                    My Approach
-                    I believe that great design is born from empathy and a deep understanding of the user. My design process is user-centric, involving continuous feedback and iteration to create products that truly resonate with users. I strive to balance creativity with functionality, ensuring that every design decision enhances the overall user experience.`;
-                    break;
-                case 'system-administration':
-                    content = `System administration is my forte, where I ensure the stability, security, and efficiency of IT infrastructures. With a focus on maintaining server and network systems, I optimize performance and reliability to support seamless business operations. 
-
-                    My Skills in System Administration
-                    Server Management: Installing, configuring, and maintaining servers (Windows, Linux).
-                    Network Administration: Managing network infrastructure, including routers, switches, and firewalls.
-                    Security: Implementing security measures to protect systems from threats and vulnerabilities.
-                    Backup & Recovery: Developing and managing backup strategies to ensure data integrity.
-                    Automation: Using scripts and automation tools to streamline system administration tasks.
-                    Monitoring: Setting up and maintaining monitoring systems to ensure optimal performance and uptime. 
-                    My Approach
-                    I believe in proactive and diligent system management to prevent issues before they arise. My approach involves continuous monitoring, regular updates, and thorough documentation to maintain a secure and efficient IT environment. I am committed to providing reliable and scalable solutions that support organizational goals and drive business success`;
-                    break;
-                default:
-                    content = `Additional information not available.`;
-                    break;
-            }
-
-            modal.style.display = 'block';
-            modalText.textContent = content;
-        });
-    });
-
-
-    closeButton.addEventListener('click', function() {
-        modal.style.display = 'none';
-    });
-
-    window.addEventListener('click', function(event) {
-        if (event.target == modal) {
-            modal.style.display = 'none';
-        }
-    });
+// Open the menu
+menuIcon.addEventListener("click", () => {
+  navbar.classList.add("active");
+  menuIcon.style.display = "none";
+  closeIcon.style.display = "block";
 });
 
-         // DYNAMIC TEXT CHANGING SCRIPT
-    
-         document.addEventListener('DOMContentLoaded', function () {
-            const texts = ["Frontend Developer", "UI/UX Designer", "System Administrator", "about"];
-            let count = 0;
-            let index = 0;
-            let currentText = '';
-            let letter = '';
+// Close the menu
+closeIcon.addEventListener("click", () => {
+  navbar.classList.remove("active");
+  closeIcon.style.display = "none";
+  menuIcon.style.display = "block";
+});
 
-            (function type() {
-                if (count === texts.length) {
-                    count = 0;
-                }
-                currentText = texts[count];
-                letter = currentText.slice(0, ++index);
-                document.querySelector('.multiple-text').textContent = letter;
-                if (letter.length === currentText.length) {
-                    count++;
-                    index = 0;
-                }
-                setTimeout(type, 400);
-            }());
-        });
+// Reset menu when resizing to a larger screen
+window.addEventListener("resize", () => {
+  if (window.innerWidth > 768) {
+    navbar.classList.remove("active");
+    navbar.style.display = ""; // Reset to default
+    closeIcon.style.display = "none";
+    menuIcon.style.display = "block";
+  }
+});
 
+// ============ light  and dark mode=================
+let lightMode = localStorage.getItem("Light-Mode");
+const themeSwitch = document.getElementById("theme-switch");
 
-        // ============ Scroll Reveal =================
-        ScrollReveal({ 
-            distance: '80px',
-            duration: 2000,
-            delay: 200,
-        });
+const enableDarkmode = () => {
+  document.body.classList.add("Light-Mode");
+  localStorage.setItem("Light-Mode", "active");
+};
 
-        ScrollReveal().reveal('.home-content, heading', { origin: 'top' });
-        ScrollReveal().reveal('.home-img, .services-container, .portfolio-box, .contact form', { origin: 'buttom' });
-        ScrollReveal().reveal('.home-contact h1, .about-img', { origin: 'left' });
-        ScrollReveal().reveal('.home-contact p, .about-contact', { origin: 'right' });
+const disableDarkmode = () => {
+  document.body.classList.remove("Light-Mode");
+  localStorage.setItem("Light-Mode", null);
+};
 
-        // ============ TYPED JS =================
-        const typed = new Typed('.multiple-texts',{
-            strings: ['Frontend Developer', 'Web Designer', 'System Administrator'],
-            typedSpeed: 70,
-            backSpeed:  70,
-            backDelay: 1000,
-            loop: true,
-        })
+if (lightMode === "active") enableDarkmode();
 
-        
+themeSwitch.addEventListener("click", () => {
+  lightMode = localStorage.getItem("Light-Mode");
+  lightMode !== "active" ? enableDarkmode() : disableDarkmode();
+});
 
-        // ============ receiving emails form clients =================
+// ============ Scroll section active link =================
 
-        // Set up form handling when DOM is fully loaded
+let sections = document.querySelectorAll("section");
+let navLinks = document.querySelectorAll("header nav a");
+
+window.onscroll = () => {
+  sections.forEach((sec) => {
+    let top = window.scrollY;
+    let offset = sec.offsetTop - 150;
+    let height = sec.offsetHeight;
+    let id = sec.getAttribute("id");
+
+    if (top >= offset && top < offset + height) {
+      navLinks.forEach((links) => {
+        links.classList.remove("active");
+        document
+          .querySelector(`header nav a[href*="${id}"]`)
+          .classList.add("active");
+      });
+    }
+  });
+
+  // ============ Sticky navbar =================
+
+  let header = document.querySelector("header");
+  header.classList.toggle("sticky", window.scrollY > 100);
+
+  // ============ Remove toggle icon and navbar =================
+  menuIcon.classList.remove("fa-xmark");
+  navbar.classList.remove("active");
+};
+
+// JavaScript for modal
+document.addEventListener("DOMContentLoaded", function () {
+  const modal = document.getElementById("modal");
+  const closeButton = document.querySelector(".close-button");
+  const modalText = document.getElementById("modal-text");
+  const readMoreButtons = document.querySelectorAll(".read-more");
+
+  readMoreButtons.forEach((button) => {
+    button.addEventListener("click", function (event) {
+      event.preventDefault();
+      const target = button.getAttribute("data-target");
+      let content = "";
+
+      switch (target) {
+        case "web-development":
+          content = `I believe in the power of code to transform ideas into reality, turning creative concepts into dynamic, user-friendly, and high-performing digital experiences. As a frontend developer, I specialize in designing and developing modern, responsive, and visually compelling web applications using HTML, CSS, JavaScript, and React.
+
+         My development philosophy revolves around writing clean, efficient, and maintainable code, ensuring that every project is scalable, optimized, and future-proof. With a strong foundation in responsive design, I create web applications that seamlessly adapt to different screen sizes and devices, delivering a consistent and engaging user experience across desktops, tablets, and mobile devices.
+
+        Beyond coding, I have a deep understanding of UI/UX principles, allowing me to craft intuitive and accessible interfaces that enhance user interaction. I am also passionate about performance optimization, cross-browser compatibility, and accessibility, ensuring that the websites and applications I build meet the highest industry standards.
+
+       I am committed to continuous learning and innovation, constantly exploring new frameworks, technologies, and best practices to stay ahead in this rapidly evolving field. Whether it’s implementing interactive features, refining design aesthetics, or optimizing site speed, I bring creativity, problem-solving, and technical excellence to every project.
+
+      My ultimate goal is to develop seamless, high-quality digital experiences that not only meet but exceed user expectations, making a meaningful impact through technology.`;
+          break;
+
+        case "system-administration":
+          content = `A highly skilled System Administrator with extensive experience in managing, maintaining, and optimizing IT infrastructures. My expertise lies in ensuring the stability, security, and efficiency of server and network systems, enabling seamless business operations and minimizing downtime.
+
+        With a strong background in server administration, network configuration, system monitoring, and troubleshooting, I am proficient in implementing security protocols, backup solutions, and performance optimizations to safeguard critical data and maintain business continuity. I have hands-on experience with Windows and Linux servers, virtualization technologies, cloud computing, and IT automation, allowing me to streamline workflows and improve overall system reliability.
+
+       I am passionate about staying ahead of emerging technologies, continuously enhancing my skills to implement the latest IT solutions and best practices. My ability to diagnose and resolve complex technical issues efficiently makes me a valuable asset in ensuring smooth and secure IT operations.
+
+      Committed to efficiency, scalability, and security, my goal is to provide robust IT infrastructure solutions that empower businesses to operate at their full potential while maintaining high levels of performance and reliability.`;
+          break;
+        case "about":
+          content = `I am a dedicated and detail-oriented Junior Frontend Developer with a strong foundation in modern web technologies and user-centric design. Passionate about crafting visually appealing, highly responsive, and intuitive digital experiences, I specialize in developing web applications that seamlessly blend aesthetics with functionality.
+
+            With expertise in HTML, CSS, JavaScript, and React, I focus on building clean, maintainable, and efficient code to ensure optimal performance and scalability. My strong understanding of responsive design principles allows me to create web applications that adapt flawlessly to various screen sizes and devices, enhancing accessibility and user engagement.
+
+            Beyond technical skills, I possess a keen eye for design and UI/UX principles, ensuring that every interface I develop is not only visually compelling but also intuitive and user-friendly. I thrive in problem-solving scenarios, leveraging my analytical mindset to debug issues, optimize website performance, and implement innovative solutions that improve overall user experience.
+
+            I am committed to continuous learning and staying up to date with industry trends, consistently refining my skills and exploring emerging frontend technologies. Whether collaborating within a team or working independently, I strive to deliver high-quality, functional, and engaging web solutions that elevate digital experiences and meet the evolving needs of users.
+
+            My goal is to contribute to impactful projects, leveraging my skills and passion for frontend development to build seamless, efficient, and modern web applications that make a lasting impression.`;
+          break;
+        default:
+          content = `Additional information not available.`;
+          break;
+      }
+
+      modal.style.display = "block";
+      modalText.textContent = content;
+    });
+  });
+
+  closeButton.addEventListener("click", function () {
+    modal.style.display = "none";
+  });
+
+  window.addEventListener("click", function (event) {
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  });
+});
+
+// DYNAMIC TEXT CHANGING SCRIPT
+document.addEventListener("DOMContentLoaded", function () {
+  const texts = [" Junior Frontend Developer", "System Administrator"];
+  let count = 0;
+  let index = 0;
+  let currentText = "";
+  let letter = "";
+
+  (function type() {
+    if (count === texts.length) {
+      count = 0;
+    }
+    currentText = texts[count];
+    letter = currentText.slice(0, ++index);
+    document.querySelector(".multiple-text").textContent = letter;
+    if (letter.length === currentText.length) {
+      count++;
+      index = 0;
+    }
+    setTimeout(type, 400);
+  })();
+});
+
+// ============ Scroll Reveal =================
+ScrollReveal({
+  distance: "80px",
+  duration: 2000,
+  delay: 200,
+});
+
+ScrollReveal().reveal(".home-content, heading", { origin: "top" });
+ScrollReveal().reveal(
+  ".home-img, .services-container, .portfolio-box, .contact form",
+  { origin: "bottom" }
+);
+ScrollReveal().reveal(".home-contact h1, .about-img", { origin: "left" });
+ScrollReveal().reveal(".home-contact p, .about-contact", { origin: "right" });
+
+// ============ TYPED JS =================
+const typed = new Typed(".multiple-texts", {
+  strings: ["Junior Frontend Developer", "System Administrator"],
+  typeSpeed: 70,
+  backSpeed: 70,
+  backDelay: 1000,
+  loop: true,
+});
+
+// ============ Receiving emails from clients =================
 document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("contactForm");
+  const form = document.getElementById("contactForm");
 
-    form.addEventListener("submit", (event) => {
-        // Prevent the default form submission
-        event.preventDefault();
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
 
-        // Get values from the FORM FIELDS
-        const name = document.getElementById("name").value.trim();
-        const email = document.getElementById("email").value.trim();
-        const phone = document.getElementById("phone").value.trim();
-        const subject = document.getElementById("subject").value.trim();
-        const message = document.getElementById("message").value.trim();
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const subject = document.getElementById("subject").value.trim();
+    const message = document.getElementById("message").value.trim();
 
-        // Check if all fields are filled
-        if (!name || !email || !subject || !phone || !message) {
-            alert("Please fill in all fields");
-            return; // Stop further execution
-        }
-        
+    if (!name || !email || !subject || !message) {
+      Toastify({
+        text: "Please fill in the forms!",
+        duration: 2000,
+        gravity: "top",
+        position: "right",
+        backgroundColor:
+          "linear-gradient(to right,rgb(114, 40, 30),rgb(152, 42, 51))",
+        stopOnFocus: true, // Prevents dismiss on hover
+      }).showToast();
 
-        // Prepare the parameters for EmailJS
-        const params = {
-            name: name,
-            email: email,
-            phone: phone,
-            subject: subject,
-            message: message,
-        };
+      return;
+    }
 
-        // Send the email using EmailJS
-        emailjs.send("service_setfa2v", "template_efti3xj", params)
-            .then(response => {
-                console.log('Email sent successfully:', response);
-                alert("Email sent successfully");
-                form.reset(); // Reset the form fields after successful submission
-            })
-            .catch(error => {
-                console.error('Error sending email:', error);
-                alert("Error sending email. Please try again.");
-            });
-    });
+    const params = {
+      name,
+      email,
+      phone,
+      subject,
+      message,
+    };
+
+    emailjs
+      .send("service_pu9itve", "template_h98uj8k", params)
+      .then((response) => {
+        console.log("Email sent successfully:", response);
+        Toastify({
+          text: "Message Sent!",
+          duration: 2000,
+          gravity: "top",
+          position: "right",
+          backgroundColor:
+            "linear-gradient(to right,rgb(30, 111, 114),rgb(42, 152, 110))",
+          stopOnFocus: true, // Prevents dismiss on hover
+        }).showToast();
+
+        form.reset();
+      })
+      .catch((error) => {
+        console.error("Error sending email:", error);
+        alert("Error sending email. Please try again.");
+      });
+  });
 });
-
-
-
-
