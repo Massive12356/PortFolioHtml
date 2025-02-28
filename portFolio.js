@@ -4,29 +4,18 @@ const menuIcon = document.getElementById("menu-icon");
 const closeIcon = document.getElementById("close-icon");
 const navbar = document.querySelector(".navbar");
 
-// Open the menu
+// Show nav and close icon when menu icon is clicked
 menuIcon.addEventListener("click", () => {
-  navbar.classList.add("active");
+  navbar.style.display = "flex";
   menuIcon.style.display = "none";
-  closeIcon.style.display = "block";
 });
 
-// Close the menu
+// Hide nav and show menu icon when close icon is clicked
 closeIcon.addEventListener("click", () => {
-  navbar.classList.remove("active");
-  closeIcon.style.display = "none";
+  navbar.style.display = "none";
   menuIcon.style.display = "block";
 });
 
-// Reset menu when resizing to a larger screen
-window.addEventListener("resize", () => {
-  if (window.innerWidth > 768) {
-    navbar.classList.remove("active");
-    navbar.style.display = ""; // Reset to default
-    closeIcon.style.display = "none";
-    menuIcon.style.display = "block";
-  }
-});
 
 // ============ light  and dark mode=================
 let lightMode = localStorage.getItem("Light-Mode");
@@ -184,7 +173,7 @@ ScrollReveal().reveal(
   { origin: "bottom" }
 );
 ScrollReveal().reveal(".home-contact h1, .about-img", { origin: "left" });
-ScrollReveal().reveal(".home-contact p, .about-contact", { origin: "right" });
+ScrollReveal().reveal(".home-contact p, .about-contact .skills", { origin: "right" });
 
 // ============ TYPED JS =================
 const typed = new Typed(".multiple-texts", {
